@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel Paradise - My Bookings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>🏨 Hotel Royal Stay</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="booking.html">Book Room</a></li>
+                <li><a href="my-bookings.html" class="active">My Bookings</a></li>
+                <li><a href="#" onclick="logout()">Logout</a></li>
+            </ul>
+            <div class="mobile-menu-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>My Bookings</h1>
+            <p>Manage your hotel reservations</p>
+        </div>
+    </section>
+
+    <!-- Bookings Section -->
+    <section class="bookings-section">
+        <div class="container">
+            <div class="bookings-header">
+                <h2>Your Reservations</h2>
+                <a href="booking.html" class="btn-primary">
+                    <span>New Booking</span>
+                    <span class="btn-icon">➕</span>
+                </a>
+            </div>
+            
+            <div class="bookings-container">
+                <div class="table-wrapper">
+                    <table class="bookings-table">
+                        <thead>
+                            <tr>
+                                <th>Booking ID</th>
+                                <th>Guest Name</th>
+                                <th>Room Type</th>
+                                <th>Check-in</th>
+                                <th>Check-out</th>
+                                <th>Guests</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bookingsTable">
+                            <!-- Bookings will be loaded here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Update Modal -->
+    <div id="updateModal" class="modal" style="display: none;">
+        <div class="modal-overlay" onclick="closeUpdateModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Update Booking</h2>
+                <button class="modal-close" onclick="closeUpdateModal()">✕</button>
+            </div>
+            
+            <form id="updateForm" onsubmit="return updateBooking(event)">
+                <input type="hidden" id="updateBookingId">
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="updateGuestName">
+                            <span class="label-icon">👤</span>
+                            Guest Name
+                        </label>
+                        <input type="text" id="updateGuestName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="updateGuests">
+                            <span class="label-icon">👥</span>
+                            Number of Guests
+                        </label>
+                        <select id="updateGuests" required>
+                            <option value="1">1 Guest</option>
+                            <option value="2">2 Guests</option>
+                            <option value="3">3 Guests</option>
+                            <option value="4">4 Guests</option>
+                            <option value="5">5+ Guests</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="updateRoomType">
+                        <span class="label-icon">🏨</span>
+                        Room Type
+                    </label>
+                    <select id="updateRoomType" required>
+                        <option value="Standard Room - ₹1500/night">Standard Room - ₹1,500/night</option>
+                        <option value="Garden View Room - ₹1800/night">Garden View Room - ₹1,800/night</option>
+                        <option value="Deluxe Room - ₹2000/night">Deluxe Room - ₹2,000/night</option>
+                        <option value="Executive Room - ₹2500/night">Executive Room - ₹2,500/night</option>
+                        <option value="Family Room - ₹2800/night">Family Room - ₹2,800/night</option>
+                        <option value="Ocean View Room - ₹3200/night">Ocean View Room - ₹3,200/night</option>
+                        <option value="Suite Room - ₹3500/night">Suite Room - ₹3,500/night</option>
+                        <option value="Honeymoon Suite - ₹4500/night">Honeymoon Suite - ₹4,500/night</option>
+                        <option value="Presidential Suite - ₹8000/night">Presidential Suite - ₹8,000/night</option>
+                        <option value="Penthouse - ₹12000/night">Penthouse - ₹12,000/night</option>
+                    </select>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="updateCheckIn">
+                            <span class="label-icon">📅</span>
+                            Check-in Date
+                        </label>
+                        <input type="date" id="updateCheckIn" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="updateCheckOut">
+                            <span class="label-icon">📅</span>
+                            Check-out Date
+                        </label>
+                        <input type="date" id="updateCheckOut" required>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeUpdateModal()">Cancel</button>
+                    <button type="submit" class="btn-primary">Update Booking</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>🏨 Hotel Paradise</h3>
+                    <p>Experience luxury and comfort like never before at our world-class hotel.</p>
+                    <div class="social-links">
+                        <a href="#">📘</a>
+                        <a href="#">📷</a>
+                        <a href="#">🐦</a>
+                        <a href="#">📺</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="booking.html">Book Room</a></li>
+                        <li><a href="my-bookings.html">My Bookings</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact Info</h4>
+                    <p>📍 123 Royal Stay Street, Bhopal</p>
+                    <p>📞 +91 9340059454</p>
+                    <p>✉️ simranmaran10@gmail.com</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Hotel Paradise. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
